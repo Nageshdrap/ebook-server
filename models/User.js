@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     googleId:{
         type:String,
-        unique:true
+        unique:true,
+        default:null
     },
     uname :{
         type: String,
