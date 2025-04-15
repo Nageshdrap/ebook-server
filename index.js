@@ -20,7 +20,6 @@ app.use(express.json());
 
 
 
-app.use('/images', express.static(__dirname + '/public/images'));
 
 
 
