@@ -12,7 +12,7 @@ var app = express();
 
 app.use(cookieParser());
 app.use(cors({
-    origin:"https://www.booklean.in",
+    origin:"https://www.bookturn.in",
     credentials:true
 }));
 app.use(express.urlencoded({limit:'50mb',extended:true}));
