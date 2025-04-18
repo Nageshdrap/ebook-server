@@ -35,6 +35,7 @@ router.get('/cartitems',verifyToken , async (req, res)=>{
   try {
     console.log("user id:" , req.userId);
     const cart = await Cart.findOne({userId : req.userId}).populate("items.productId");
+    console.log("user check",cart);
     if(!cart){
       console.log("no cart found for user");
       return res.json({message: "cart is empty", items:[]});
