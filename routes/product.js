@@ -80,6 +80,8 @@ router.post("/insert-product",upload.array('files'),async (req,res)=>{
                                         images:imageUrl,
                                         author:req.body.author,
                                         description:req.body.description,
+                                        mrp:req.body.mrp,
+                                        discount:req.body.discount,
                                         price:req.body.price,
                                         category:req.body.category,
                                         subcategory:req.body.subcategory
