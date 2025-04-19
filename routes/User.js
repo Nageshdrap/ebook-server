@@ -39,7 +39,9 @@ router.post("/login", async(req,res)=>{
        
         const {email , password} = req.body;
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({
+            $or: [{email:email},{phone:email}],
+        });
         if(!user){
             return res.json({success:false,message:'Invalid Email Id'});
         }
