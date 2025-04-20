@@ -106,7 +106,7 @@ router.get('/getorderDetails/:id', verfiryToken ,async (req,res) =>{
 
 router.get('/adminorders', async (req, res) =>{
     try {
-        const order = await Order.find({orderStatus:{$ne : "Delivered"}}).populate("items.productId","tittle images price");
+        const order = await Order.find({orderStatus:{$ne : "Delivered"}}).populate("items.productId","_id tittle images price");
         res.json(order);
     } catch (error) {
         res.json({msg:"fetching failed"});
