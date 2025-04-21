@@ -99,7 +99,7 @@ router.post("/insert-product",upload.array('files'),async (req,res)=>{
 
 router.get('/product', async (req,res)=>{ 
      try{
-            product.find().limit(6).then(  
+            product.find().then(  
                 (data)=>{
                     res.send(data);
                     // res.status(201).json({msg:"data get successfully"});
