@@ -80,7 +80,7 @@ router.put('/update/:id', verifyToken , async(req, res) =>{
         total += item.productId.price * item.quantity;
         
       });
-
+      await cart.save();
       if(couponValue){
         const coupon = await Coupon.findOne({code:couponValue.toUpperCase()});
       
