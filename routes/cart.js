@@ -105,16 +105,16 @@ router.delete("/remove/:id" , verifyToken , async(req, res)=>{
     const productId = req.params.id;
     const couponValue = req.body;
     const userId = req.userId;
-    const cart = await Cart.findOne({userId});
+    const cart = await Cart.findOne({userId}).populate("items.productId");
       
       if(!cart) {return res.status(400).json({msg:'cart not found'})};
 
-      cart.items = cart.items.filter(item => item.productId.toString() !== productId);
+      cart.items = cart.items.filter(item => item.productId._id.toString() !== productId);
 
       
 
       await cart.save();
-      const updatedCart = await Cart.findOne({userId}).populate("items.productId");
+
       let total = 0;
       updatedCart.items.forEach(item =>{
         total += item.productId.price * item.quantity
