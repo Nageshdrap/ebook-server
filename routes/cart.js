@@ -117,7 +117,7 @@ router.delete("/remove/:id" , verifyToken , async(req, res)=>{
       await cart.save();
 
       let total = 0;
-      updatedCart.items.forEach(item =>{
+      cart.items.forEach(item =>{
         total += item.productId.price * item.quantity
       });
       if(couponValue){
@@ -128,9 +128,9 @@ router.delete("/remove/:id" , verifyToken , async(req, res)=>{
 
         const discountAmount =Math.round((coupon.discount/100)*total) ;
         const discountedTotal = total - discountAmount;
-        res.json({cart:updatedCart,total:total,discountAmount,discountedTotal});
+        res.json({cart:cart,total:total,discountAmount,discountedTotal});
       }else{
-      res.json({cart:updatedCart,total:total});
+      res.json({cart:cart,total:total});
       }
   } catch (error) {
     res.status(500).json({msg:'server error'});
