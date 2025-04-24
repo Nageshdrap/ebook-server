@@ -169,7 +169,7 @@ router.get('/categorylist',async (req,res) =>{
         const fillterListProduct = await product.find({
             $and:[{category:category , subcategory:subcategory}]
         });
-        res.json({fillterListProduct});
+        res.json(fillterListProduct);
     } catch (error) {
         res.status(500).json({error:'getting category item failled'});
     }
