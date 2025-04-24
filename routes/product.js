@@ -168,7 +168,7 @@ router.get('/categorylist',async (req,res) =>{
         const {category , subcategory} = req.body;
         const fillterListProduct = await product.find({
             $and:[{category:category , subcategory:subcategory}]
-        });
+        }).populate("category","name").populate("subcategory","name");
         res.json(fillterListProduct);
     } catch (error) {
         res.status(500).json({error:'getting category item failled'});
