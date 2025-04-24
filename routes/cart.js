@@ -103,7 +103,8 @@ router.put('/update/:id', verifyToken , async(req, res) =>{
 router.delete("/remove/:id" , verifyToken , async(req, res)=>{
   try {
     const productId = req.params.id;
-    const couponValue = req.body;
+    const{ couponValue} = req.body;
+    console.log(couponValue);
     const userId = req.userId;
     const cart = await Cart.findOne({userId}).populate("items.productId");
       
