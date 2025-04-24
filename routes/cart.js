@@ -103,6 +103,7 @@ router.put('/update/:id', verifyToken , async(req, res) =>{
 router.delete("/remove/:id" , verifyToken , async(req, res)=>{
   try {
     const productId = req.params.id;
+    const couponValue = req.body;
     const userId = req.userId;
     const cart = await Cart.findOne({userId});
       
@@ -114,8 +115,22 @@ router.delete("/remove/:id" , verifyToken , async(req, res)=>{
 
       await cart.save();
       const updatedCart = await Cart.findOne({userId}).populate("items.productId");
+      let total = 0;
+      updatedCart.items.forEach(item =>{
+        total += item.productId.price * item.quantity
+      });
+      if(couponValue){
+        const coupon = await Coupon.findOne({code:couponValue.toUpperCase()});
+      
+        if(!coupon) return res.json({msg:'Invalid coupon '});
+        if(coupon.expiresAt < new Date()) return res.json({msg:'coupon expired'});
 
-      res.json(updatedCart);
+        const discountAmount =Math.round((coupon.discount/100)*total) ;
+        const discountedTotal = total - discountAmount;
+        res.json({cart:updatedCart,total:total,discountAmount,discountedTotal});
+      }else{
+      res.json({cart:updatedCart,total:total});
+      }
   } catch (error) {
     res.status(500).json({msg:'server error'});
   }
