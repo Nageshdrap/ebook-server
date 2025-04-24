@@ -161,6 +161,18 @@ router.get('/search' , async (req, res) =>{
     } catch (error) {
         res.status(500).json({ error: " getting search product failled"});
     }
+});
+
+router.get('/categorylist',async (req,res) =>{
+    try {
+        const {category , subcategory} = req.body;
+        const fillterListProduct = await product.find({
+            $and:[{category:category , subcategory:subcategory}]
+        });
+        res.json({fillterListProduct});
+    } catch (error) {
+        res.status(500).json({error:'getting category item failled'});
+    }
 })
 
 module.exports = router;
