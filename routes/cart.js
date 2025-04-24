@@ -106,12 +106,15 @@ router.delete("/remove/:id" , verifyToken , async(req, res)=>{
     
    
     const userId = req.userId;
+    const { couponValue} = req.body;
     const cart = await Cart.findOne({userId}).populate("items.productId");
       
       if(!cart) {return res.status(400).json({msg:'cart not found'})};
 
       cart.items = cart.items.filter(item => item.productId._id.toString() !== productId);
       await cart.save();
+      
+
       res.json({cart});
   } catch (error) {
     res.status(500).json({msg:'server error'});
