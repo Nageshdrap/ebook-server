@@ -166,8 +166,10 @@ router.get('/search' , async (req, res) =>{
 router.get('/categorylist',async (req,res) =>{
     try {
         const {category , subcategory} = req.body;
+
         const fillterListProduct = await product.find({
-            $and:[{category:category , subcategory:subcategory}]
+            category:category,
+            subcategory:subcategory
         }).populate("category","name").populate("subcategory","name");
         res.json(fillterListProduct);
     } catch (error) {
