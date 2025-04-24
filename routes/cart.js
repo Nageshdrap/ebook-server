@@ -103,10 +103,10 @@ router.put('/update/:id', verifyToken , async(req, res) =>{
 router.delete("/remove/:id" , verifyToken , async(req, res)=>{
   try {
     const productId = req.params.id;
-    const couponValue  = req.body;
-    console.log(couponValue);
+    
+   
     const userId = req.userId;
-    const cart = await Cart.findOne({userId}).populate("items.productId");
+    const cart = await Cart.findOne({userId});
       
       if(!cart) {return res.status(400).json({msg:'cart not found'})};
 
@@ -115,23 +115,8 @@ router.delete("/remove/:id" , verifyToken , async(req, res)=>{
       
 
       await cart.save();
-
-      let total = 0;
-      cart.items.forEach(item =>{
-        total += item.productId.price * item.quantity
-      });
-      if(couponValue){
-        const coupon = await Coupon.findOne({code:couponValue.toUpperCase()});
-      
-        if(!coupon) return res.json({msg:'Invalid coupon '});
-        if(coupon.expiresAt < new Date()) return res.json({msg:'coupon expired'});
-
-        const discountAmount =Math.round((coupon.discount/100)*total) ;
-        const discountedTotal = total - discountAmount;
-        res.json({cart:cart,total:total,discountAmount,discountedTotal});
-      }else{
-      res.json({cart:cart,total:total});
-      }
+      const updatedcart = await cart.findOne({userId}).populate("items.productId");
+      res.json(updatedcart);
   } catch (error) {
     res.status(500).json({msg:'server error'});
   }
