@@ -99,12 +99,18 @@ router.post("/insert-product",upload.array('files'),async (req,res)=>{
 
 router.get('/product', async (req,res)=>{ 
      try{
-            await product.find().then(  
-                (data)=>{
-                    res.send(data);
-                    // res.status(201).json({msg:"data get successfully"});
-                }
-            )
+            // await product.find().then(  
+            //     (data)=>{
+            //         res.send(data);
+            //         // res.status(201).json({msg:"data get successfully"});
+            //     }
+            // )
+            const count = await product.countDocuments();
+
+            const products = await product.aggregate([
+                { $sample:{size:count}}
+            ]);
+            res.json(products);
            
         }catch(error){
             console.log(error);
