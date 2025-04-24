@@ -165,7 +165,9 @@ router.get('/search' , async (req, res) =>{
 
 router.get('/categorylist',async (req,res) =>{
     try {
-        const {category , subcategory} = req.body;
+        const {category , subcategory} = req.query;
+
+       
 
         const fillterListProduct = await product.find({
             category:category,
