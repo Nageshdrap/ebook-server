@@ -106,8 +106,6 @@ router.delete("/remove/:id" , verifyToken , async(req, res)=>{
     
    
     const userId = req.userId;
-    const { couponValue } = req.body;
-    console.log("coupon",couponValue);
     const cart = await Cart.findOne({userId}).populate("items.productId");
       
       if(!cart) {return res.status(400).json({msg:'cart not found'})};
