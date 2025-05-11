@@ -99,18 +99,22 @@ router.post("/insert-product",upload.array('files'),async (req,res)=>{
 
 router.get('/product', async (req,res)=>{ 
      try{
+        const page = parseInt(req.query.page) || 1 ;
+        const limit = 4;
             // await product.find().then(  
             //     (data)=>{
             //         res.send(data);
             //         // res.status(201).json({msg:"data get successfully"});
             //     }
             // )
-            const count = await product.countDocuments();
 
-            const products = await product.aggregate([
-                { $sample:{size:count}}
-            ]);
-            res.json(products);
+            const skip = (page - 1) * limit;
+            const totalProducts = await product.countDocuments();
+
+            const products = await product.find().skip(skip).limit(limit);
+
+            res.json({products , totalPage: Math.ceil(totalProducts/limit)});
+           
            
         }catch(error){
             console.log(error);
