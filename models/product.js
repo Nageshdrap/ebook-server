@@ -43,6 +43,11 @@ const productSchema = new mongoose.Schema({
             ref:"subcategory",
             required:true
         },
+        random:{
+            type:Number,
+            default: ()=>Math.random(),
+            index:true
+        }
         // stock:{
         //     type:String,
         //     enum:['Avaliable','Not avaliable'],

@@ -100,6 +100,7 @@ router.post("/insert-product",upload.array('files'),async (req,res)=>{
 router.get('/product', async (req,res)=>{ 
      try{
         const page = parseInt(req.query.page) || 1 ;
+        const seed = parseFloat(req.query.seed) || Math.random();
         const limit = 4;
             // await product.find().then(  
             //     (data)=>{
@@ -110,10 +111,40 @@ router.get('/product', async (req,res)=>{
 
             const skip = (page - 1) * limit;
             const totalProducts = await product.countDocuments();
+            const countgte = await product.countDocuments({random: {$gte: seed}});
+            let products=[];
+            // const products = await product.find({random:{$gte: seed}}).sort({random:1}).skip(skip).limit(limit);
 
-            const products = await product.find().skip(skip).limit(limit);
+            if(skip + limit <= countgte){
+                products = await product.find({random: {$gte: seed}})
+                .sort({random:1})
+                .skip(skip)
+                .limit(limit);
+            }else if(skip < countgte){
+                const firstPartLimit = countgte - skip;
+                const secondPartLimit = limit - firstPartLimit;
 
-            res.json({products , totalPage: Math.ceil(totalProducts/limit)});
+                const part1 = await product.find({random: {$gte: seed}})
+                    .sort({random:1})
+                    .skip(skip)
+                    .limit(firstPartLimit);
+
+                const part2 = await product.find({random:{$lt:seed}})
+                    .sort({random:1})
+                    .limit(secondPartLimit);
+                
+                products = [...part1,...part2];
+            }else{
+                const wrapSkip = skip - countgte;
+                
+                products = await product.find({random:{$lt:seed}})
+                    .sort({random:1})
+                    .skip(wrapSkip)
+                    .limit(limit);
+            }
+
+
+            res.json({products , totalPage: Math.ceil(totalProducts/limit),seed});
            
            
         }catch(error){
