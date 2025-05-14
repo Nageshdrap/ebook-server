@@ -33,6 +33,7 @@ const Cart = require('./routes/cart');
 const Order = require('./routes/order');
 const Wishlist = require('./routes/wishlist');
 const Coupon = require('./routes/coupon');
+const mailsender = require('./routes/mailsender');
 
 app.use("/api",UserData);
 app.use("/api",Product);
@@ -43,6 +44,7 @@ app.use('/cart',Cart);
 app.use('/api', Order); 
 app.use('/api',Wishlist); 
 app.use('/api',Coupon);
+app.use('/api',mailsender);
     
 
 const connecTodb = async()=>{
