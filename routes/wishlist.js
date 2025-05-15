@@ -48,10 +48,12 @@ router.delete("/deletewishlist/:productId", verifyToken , async (req,res)=>{
         const userId = req.userId;
         const productId = req.params.productId;
         const wishlist = await Wishlist.findOne({userId});
+        console.log('before',wishlist.productId);
         if(wishlist){
-            wishlist.productId=wishlist.productId.filter(id => id.toString() !== productId);
+            wishlist.productId=wishlist.productId.filter(id => id._id.toString() !== productId);
             await wishlist.save();
         }
+        console.log("after",wishlist.productId);
         res.json({msg:'product removed from Wishlist'});
     } catch (error) {
                 res.json({msg:'wishlist getting failed'});
