@@ -35,9 +35,9 @@ router.post('/addwishlist',verifyToken, async (req,res) =>{
 router.get("/getwishlist", verifyToken , async (req,res)=>{
     try {
         const userId = req.userId;
-        const wishlist = await Wishlist.find({userId}).populate("productId");
+        const wishlist = await Wishlist.findOne({userId}).populate("productId");
         res.json(wishlist);
-        console.log("Wishlist",wishlist);
+        console.log("Wishlist nag",wishlist);
     } catch (error) {
         res.json({msg:'wishlist getting failed'});
     }
