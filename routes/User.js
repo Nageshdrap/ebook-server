@@ -96,6 +96,22 @@ router.post("/auth/google", async (req,res) =>{
     } catch (error) {
         
     }
+});
+
+router.post('/easylogin', async (req,res) =>{
+    try {
+        const {email} = req.body;
+        let user = await User.findOne({email});
+
+        if(!user){
+            user = new User({email});
+            await user.save();
+        }
+         const token = jwt.sign({userId : user._id}, jwtsecret);
+        res.json({success:true , message:'logged in successfully' ,token});
+    } catch (error) {
+        res.json({success:false , message:'logged in failed'});
+    }
 })
 
 module.exports = router;
