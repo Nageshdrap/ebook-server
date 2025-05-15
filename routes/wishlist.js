@@ -36,8 +36,8 @@ router.get("/getwishlist", verifyToken , async (req,res)=>{
     try {
         const userId = req.userId;
         const wishlist = await Wishlist.findOne({userId}).populate("productId");
-        res.json(wishlist);
-        console.log("Wishlist nag",wishlist);
+        res.json(wishlist.productId);
+        console.log("Wishlist nag",wishlist.productId);
     } catch (error) {
         res.json({msg:'wishlist getting failed'});
     }
