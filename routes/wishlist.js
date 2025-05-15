@@ -32,13 +32,13 @@ router.post('/wishlist',verifyToken, async (req,res) =>{
     }
 });
 
-router.get("/wishlist", verifyToken , async (req,res)=>{
+router.get("/getwishlist", verifyToken , async (req,res)=>{
     try {
         const userId = req.userId;
-        const wishlist = await Wishlist.findOne({userId}).populate("productId");
-        res.json({list:wishlist.productId});
+        const wishlist = await Wishlist.find({userId}).populate("productId");
+        res.json(wishlist);
     } catch (error) {
-        
+        res.json({msg:'wishlist getting failed'});
     }
 });
 
@@ -53,7 +53,8 @@ router.delete("/wishlist/:id", verifyToken , async (req,res)=>{
         }
         res.json({msg:'product removed from Wishlist'});
     } catch (error) {
-        
+                res.json({msg:'wishlist getting failed'});
+
     }
 })
 
