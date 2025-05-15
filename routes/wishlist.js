@@ -5,7 +5,7 @@ const verifyToken = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 
-router.post('/wishlist',verifyToken, async (req,res) =>{
+router.post('/addwishlist',verifyToken, async (req,res) =>{
     try {
         const userId = req.userId;
         
@@ -42,7 +42,7 @@ router.get("/getwishlist", verifyToken , async (req,res)=>{
     }
 });
 
-router.delete("/wishlist/:id", verifyToken , async (req,res)=>{
+router.delete("/deletewishlist/:id", verifyToken , async (req,res)=>{
     try {
         const userId = req.userId;
         const productId = req.params.id;
