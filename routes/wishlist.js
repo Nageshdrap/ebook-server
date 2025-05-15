@@ -42,10 +42,10 @@ router.get("/getwishlist", verifyToken , async (req,res)=>{
     }
 });
 
-router.delete("/deletewishlist/:id", verifyToken , async (req,res)=>{
+router.delete("/deletewishlist/:productId", verifyToken , async (req,res)=>{
     try {
         const userId = req.userId;
-        const productId = req.params.id;
+        const productId = req.params.productId;
         const wishlist = await Wishlist.findOne({userId});
         if(wishlist){
             wishlist.productId=wishlist.productId.filter(id => id.toString() !== productId);
