@@ -101,7 +101,7 @@ router.get('/product', async (req,res)=>{
      try{
         const page = parseInt(req.query.page) || 1 ;
         const seed = parseFloat(req.query.seed) || Math.random();
-        const limit = 4;
+        const limit = 24;
             // await product.find().then(  
             //     (data)=>{
             //         res.send(data);
