@@ -49,6 +49,9 @@ router.post('/send-contact', async(req,res)=>{
     const { name , email , subject ,message } = req.body;
 
     try {
+        console.log('contact us email' , email);
+                console.log('contact us name' , name);
+                        console.log('contact us msg' , message);
         const response = await axios.post('https://api.mailersend.com/v1/email',
             {
                 from:{
