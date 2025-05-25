@@ -65,7 +65,7 @@ router.post('/send-contact', async(req,res)=>{
                     }
                 ],
                 subject:'Contact inquire from bookturn user',
-                text:`You received a new message:\n\nname: ${name}\ndepartment name: ${deptname}\nnumber: ${number}`,
+                text:`You received a new message:\n\nname: ${name}\nemail: ${email}\nsubject: ${subject}\nmessage: ${message}`,
                 html: `<h3>New Inquiry from Bookstore</h3>
                <p><strong>Name:</strong> ${name}</p>
                <p><strong>Email:</strong> ${email}</p>
